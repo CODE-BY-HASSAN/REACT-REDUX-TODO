@@ -2,15 +2,32 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { addTodo } from './app/createSlices/todo';
-import DeleteModal from './component/modal';
+import EditModal from './component/EditModal';
+import DeleteModal from "./component/DeleteModal";
+import DeleteAllModal from "./component/DeleteAllModal";
+
 
 export default function TodoApp() {
 
   const dispatch = useDispatch()
   const todo = useSelector((state) => state.todo.todos)
-  console.log(todo);
+
+const [isEdit,setIsEdit]=useState("")
+
+console.log(isEdit);
+
+
 
   const [input, setInput] = useState("")
+
+  const editHandler=(todo)=>{
+    console.log(todo);
+    
+
+
+
+  }
+  
 
   const addTodos = () => {
 
@@ -71,9 +88,9 @@ export default function TodoApp() {
 
                     <div className="flex items-center gap-2 shrink-0">
 
-                      <DeleteModal btn="Edit" />
+                      <EditModal />
 
-                      <DeleteModal btn="Delete" />
+                      <DeleteModal  />
 
                     </div>
                   </div>
@@ -88,12 +105,7 @@ export default function TodoApp() {
           </div>
 
           <div className="mt-5 pt-4 border-t border-slate-700">
-            <button
-              type="button"
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-red-500/10"
-            >
-              Delete All
-            </button>
+          <DeleteAllModal/>
           </div>
 
         </div>

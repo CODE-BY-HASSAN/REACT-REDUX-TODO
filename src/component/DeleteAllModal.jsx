@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Input } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -20,25 +19,34 @@ const style = {
   p: 4,
 };
 
-export default function DeleteModal({ btn }) {
+export default function DeleteAllModal({ click }) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
-      <button
+    <>
+      <Button
         onClick={handleOpen}
-        type="button"
-        className={
-          btn == "Delete"
-            ? "px-4 py-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition"
-            : "px-4 py-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500 hover:text-slate-950 transition"
-        }
+        variant="contained"
+        fullWidth
+        sx={{
+          height: "55px",
+          borderRadius: "16px",
+          backgroundColor: "#ff2939",
+          color: "#fff",
+          fontSize: "20px",
+          fontWeight: 700,
+          textTransform: "none",
+          boxShadow: "0 8px 20px rgba(255, 41, 57, 0.15)",
+          "&:hover": {
+            backgroundColor: "#e91e2d",
+          },
+        }}
       >
-        {btn}
-      </button>
+        Delete All
+      </Button>
 
       <Modal
         open={open}
@@ -55,14 +63,13 @@ export default function DeleteModal({ btn }) {
           <Box sx={style}>
             <Typography
               variant="h5"
-              component="h2"
               sx={{
                 color: "#fff",
-                fontWeight: 700,
+                fontWeight: 500,
                 mb: 1,
               }}
             >
-                {btn == "Delete" ? "Delete" : "Update"}
+              Delete All
             </Typography>
 
             <Typography
@@ -71,11 +78,7 @@ export default function DeleteModal({ btn }) {
                 mb: 3,
               }}
             >
-              {btn == "Delete" ? "Are you sure you want to delete this todo?" : <input
-  type="text"
-  placeholder="Update your todo..."
-  className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-500 rounded-xl px-4 py-3 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition"
-/>}
+              Are you sure you want to delete all todos?
             </Typography>
 
             <Box
@@ -97,6 +100,7 @@ export default function DeleteModal({ btn }) {
               </Button>
 
               <Button
+                onClick={click}
                 variant="contained"
                 sx={{
                   backgroundColor: "#ef4444",
@@ -105,12 +109,12 @@ export default function DeleteModal({ btn }) {
                   },
                 }}
               >
-                {btn == "Delete" ? "Delete" : "Update"}
+                Delete All
               </Button>
             </Box>
           </Box>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }
