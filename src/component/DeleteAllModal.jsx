@@ -5,6 +5,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { deleteAllTodo } from "../app/createSlices/todo";
 
 const style = {
   position: "absolute",
@@ -19,11 +21,16 @@ const style = {
   p: 4,
 };
 
-export default function DeleteAllModal({ click }) {
+export default function DeleteAllModal({ todo }) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
+
+  const deleteAllHandler = () => {
+    dispatch(deleteAllTodo(todo.id));
+  };
 
   return (
     <>
@@ -100,7 +107,10 @@ export default function DeleteAllModal({ click }) {
               </Button>
 
               <Button
-                onClick={click}
+                onClick={() => {
+                  deleteAllHandler();
+                  handleClose();
+                }}
                 variant="contained"
                 sx={{
                   backgroundColor: "#ef4444",

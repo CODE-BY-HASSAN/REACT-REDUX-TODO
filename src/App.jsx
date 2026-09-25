@@ -1,62 +1,42 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { toast, ToastContainer } from 'react-toastify';
-import { addTodo } from './app/createSlices/todo';
-import EditModal from './component/EditModal';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import { addTodo } from "./app/createSlices/todo";
+import EditModal from "./component/EditModal";
 import DeleteModal from "./component/DeleteModal";
 import DeleteAllModal from "./component/DeleteAllModal";
 
-
 export default function TodoApp() {
+  const dispatch = useDispatch();
+  const todo = useSelector((state) => state.todo.todos);
 
-  const dispatch = useDispatch()
-  const todo = useSelector((state) => state.todo.todos)
-
-const [isEdit,setIsEdit]=useState("")
-
-console.log(isEdit);
-
-
-
-  const [input, setInput] = useState("")
-
-  const editHandler=(todo)=>{
-    console.log(todo);
-    
-
-
-
-  }
-  
+  const [input, setInput] = useState("");
 
   const addTodos = () => {
-
     if (input.trim() == "") {
-      return toast("Enter a task!")
+      return toast("Enter a task!");
     }
 
     dispatch(
       addTodo({
         id: new Date().getTime(),
         title: input,
-      })
-    )
+      }),
+    );
 
-    toast.dark("Add todo successfully!")
+    toast.dark("Add todo successfully!");
 
-    setInput("")
-  }
+    setInput("");
+  };
 
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col items-center px-4 py-4">
       <div className="w-full max-w-xl">
-
         <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-5 tracking-tight">
           Todo App
         </h1>
 
         <div className="bg-slate-800/80 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl p-4 md:p-5">
-
           <div className="flex flex-col sm:flex-row gap-3 mb-5">
             <input
               onChange={(e) => setInput(e.target.value)}
@@ -76,38 +56,33 @@ console.log(isEdit);
           </div>
 
           <div className="space-y-2 max-h-[45vh] overflow-y-auto pr-2">
-
             {todo.length > 0 ? (
               todo.map((todo) => {
                 return (
-                  <div className="flex items-center justify-between gap-3 bg-slate-900 border border-slate-700 rounded-xl px-3 py-3">
-
+                  <div
+                    className="flex items-center justify-between gap-3 bg-slate-900 border border-slate-700 rounded-xl px-3 py-3"
+                    key={todo.id}
+                  >
                     <p className="text-white text-base break-all">
                       {todo.title}
                     </p>
 
                     <div className="flex items-center gap-2 shrink-0">
+                      <EditModal todo={todo} />
 
-                      <EditModal />
-
-                      <DeleteModal  />
-
+                      <DeleteModal todo={todo} />
                     </div>
                   </div>
-                )
+                );
               })
             ) : (
-              <h1 className="text-white text-center py-4">
-                No todos
-              </h1>
+              <h1 className="text-white text-center py-4">No todos</h1>
             )}
-
           </div>
 
           <div className="mt-5 pt-4 border-t border-slate-700">
-          <DeleteAllModal/>
+            <DeleteAllModal todo={todo} />
           </div>
-
         </div>
       </div>
 

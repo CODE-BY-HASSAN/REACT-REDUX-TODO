@@ -5,6 +5,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { editTodo } from "../app/createSlices/todo";
 
 const style = {
   position: "absolute",
@@ -19,8 +21,21 @@ const style = {
   p: 4,
 };
 
-export default function EditModal({ click }) {
+export default function EditModal({ todo }) {
   const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const [input, setInput] = React.useState(todo.title);
+
+  const updateHandler = () => {
+    dispatch(
+      editTodo({
+        id: todo.id,
+        title: input,
+      }),
+    );
+  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -60,6 +75,8 @@ export default function EditModal({ click }) {
             </Typography>
 
             <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               type="text"
               placeholder="Update your todo..."
               className="w-full bg-slate-900 border border-slate-600 text-white placeholder-slate-500 rounded-xl px-4 py-3 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition"
@@ -85,13 +102,16 @@ export default function EditModal({ click }) {
               </Button>
 
               <Button
-                onClick={click}
                 variant="contained"
                 sx={{
                   backgroundColor: "#f59e0b",
                   "&:hover": {
                     backgroundColor: "#d97706",
                   },
+                }}
+                onClick={() => {
+                  updateHandler();
+                  handleClose();
                 }}
               >
                 Update
